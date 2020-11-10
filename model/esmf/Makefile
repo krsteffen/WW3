@@ -6,9 +6,12 @@ WW3_DIR  := $(shell cd .. 1>/dev/null 2>&1 && pwd)
 WW3_BINDIR := $(WW3_DIR)/bin
 WW3_TMPDIR := $(WW3_DIR)/tmp
 WW3_EXEDIR := $(WW3_DIR)/exe
-WW3_COMP ?= gnu
-WW3_CC := gcc
-WW3_F90 := gfortran
+#WW3_COMP ?= gnu
+#WW3_CC := gcc
+#WW3_F90 := gfortran
+WW3_COMP ?= ndcrc
+WW3_CC := mpicc
+WW3_F90 := mpif90
 SWITCHES := $(shell cat switch)
 
 WWATCH3_ENV := $(WW3_BINDIR)/wwatch3.env
@@ -44,7 +47,10 @@ else ifeq ("$(WW3_COMP)",$(filter "$(WW3_COMP)","mpt" "datarmor_mpt" "datarmor_m
 # gnu
 else ifeq ("$(WW3_COMP)",$(filter "$(WW3_COMP)","gnu" "datarmor_gnu" "datarmor_gnu_debug"))
  ESMF_F90COMPILEOPTS := $(ESMF_F90COMPILEOPTS) -fconvert=big-endian
-# error
+# nd crc system 
+else ifeq ("$(WW3_COMP)",$(filter "$(WW3_COMP)","ndcrc" "intel"))
+ ESMF_F90COMPILEOPTS := $(ESMF_F90COMPILEOPTS) -convert big_endian
+#
 else
  $(error Unsupported WW3_COMP: $(WW3_COMP))
 endif
@@ -170,8 +176,13 @@ gout:
              -e "s/NOGRB/NCEP2 NCO/g"\
                   $(WW3_BINDIR)/tempswitch > $(WW3_BINDIR)/switch
 	\rm -f $(WW3_BINDIR)/tempswitch
+	$(WW3_BINDIR)/w3_make ww3_ounf
+	$(WW3_BINDIR)/w3_make ww3_prnc
 	$(WW3_BINDIR)/w3_make ww3_outp
-	$(WW3_BINDIR)/w3_make ww3_grib
+	$(WW3_BINDIR)/w3_make ww3_multi
+#	$(WW3_BINDIR)/w3_make ww3_grib
+#  DW: comment out ww3_grib (linking error)
+# 
 
 # ------------------------------------------------------------------------------
 
