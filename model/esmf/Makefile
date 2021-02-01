@@ -10,8 +10,8 @@ WW3_EXEDIR := $(WW3_DIR)/exe
 #WW3_CC := gcc
 #WW3_F90 := gfortran
 WW3_COMP ?= ndcrc
-WW3_CC := mpicc
-WW3_F90 := mpif90
+WW3_CC ?= mpicc
+WW3_F90 ?= mpif90
 SWITCHES := $(shell cat switch)
 
 WWATCH3_ENV := $(WW3_BINDIR)/wwatch3.env
@@ -48,7 +48,7 @@ else ifeq ("$(WW3_COMP)",$(filter "$(WW3_COMP)","mpt" "datarmor_mpt" "datarmor_m
 else ifeq ("$(WW3_COMP)",$(filter "$(WW3_COMP)","gnu" "datarmor_gnu" "datarmor_gnu_debug"))
  ESMF_F90COMPILEOPTS := $(ESMF_F90COMPILEOPTS) -fconvert=big-endian
 # nd crc system 
-else ifeq ("$(WW3_COMP)",$(filter "$(WW3_COMP)","ndcrc" "intel"))
+else ifeq ("$(WW3_COMP)",$(filter "$(WW3_COMP)","ndcrc" "intel" "stampede"))
  ESMF_F90COMPILEOPTS := $(ESMF_F90COMPILEOPTS) -convert big_endian
 #
 else
