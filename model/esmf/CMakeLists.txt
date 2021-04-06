@@ -4,10 +4,6 @@ project(ww3nemslib VERSION 7.00 LANGUAGES Fortran)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(NetCDF REQUIRED Fortran)
-find_package(MPI REQUIRED)
-find_package(ESMF MODULE REQUIRED)
-
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
     set(CMAKE_Fortran_FLAGS "-fno-second-underscore -ffree-line-length-none -fconvert=big-endian -O3 -march=native")
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
@@ -21,6 +17,8 @@ set(SRCS
     w3cspcmd.ftn
     w3dispmd.ftn
     w3fldsmd.ftn
+    w3fld1md.ftn
+    w3fld2md.ftn
     w3flx1md.ftn
     w3gdatmd.ftn
     w3gsrumd.ftn
